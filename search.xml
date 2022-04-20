@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title>测试博客</title>
+      <link href="/posts/3644879138.html"/>
+      <url>/posts/3644879138.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="test1"><a href="#test1" class="headerlink" title="test1"></a>test1</h2><h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>coding </p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客测试 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 编程 </tag>
+            
+            <tag> 技术 </tag>
+            
+            <tag> 计算机 </tag>
+            
+            <tag> 通信 </tag>
+            
+            <tag> 人工智能 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/posts/1243066710.html"/>
       <url>/posts/1243066710.html</url>
