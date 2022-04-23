@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>测试博客1</title>
+      <link href="/posts/1449520675.html"/>
+      <url>/posts/1449520675.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><h3 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h3><p>1234</p><h3 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h3><p>1234</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 技术 </tag>
+            
+            <tag> 计算机 </tag>
+            
+            <tag> 通信 </tag>
+            
+            <tag> mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>测试博客</title>
       <link href="/posts/3644879138.html"/>
       <url>/posts/3644879138.html</url>
