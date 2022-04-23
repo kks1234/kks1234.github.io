@@ -2,7 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kks1234.xyz/posts/3644879138.html</loc>
+    
+    <lastmod>2022-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://kks1234.xyz/posts/3480010648.html</loc>
+    
+    <lastmod>2022-04-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://kks1234.xyz/404.html</loc>
     
     <lastmod>2022-04-23</lastmod>
     
@@ -48,24 +66,6 @@
   
   <url>
     <loc>http://kks1234.xyz/tags/index.html</loc>
-    
-    <lastmod>2022-04-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://kks1234.xyz/posts/3644879138.html</loc>
-    
-    <lastmod>2022-04-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://kks1234.xyz/404.html</loc>
     
     <lastmod>2022-04-23</lastmod>
     
