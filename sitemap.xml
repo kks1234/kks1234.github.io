@@ -4,7 +4,7 @@
   <url>
     <loc>http://kks1234.xyz/posts/1449520674.html</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -13,7 +13,16 @@
   <url>
     <loc>http://kks1234.xyz/posts/3480010648.html</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://kks1234.xyz/posts/37908005.html</loc>
+    
+    <lastmod>2022-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -22,7 +31,7 @@
   <url>
     <loc>http://kks1234.xyz/404.html</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -31,7 +40,7 @@
   <url>
     <loc>http://kks1234.xyz/about/index.html</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -40,7 +49,7 @@
   <url>
     <loc>http://kks1234.xyz/categories/index.html</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -49,7 +58,7 @@
   <url>
     <loc>http://kks1234.xyz/links/index.html</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -58,7 +67,7 @@
   <url>
     <loc>http://kks1234.xyz/repository/index.html</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -67,7 +76,7 @@
   <url>
     <loc>http://kks1234.xyz/tags/index.html</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -76,7 +85,7 @@
 
   <url>
     <loc>http://kks1234.xyz/</loc>
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -84,35 +93,42 @@
   
   <url>
     <loc>http://kks1234.xyz/tags/%E7%BC%96%E7%A8%8B/</loc>
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://kks1234.xyz/tags/%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://kks1234.xyz/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/</loc>
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://kks1234.xyz/tags/%E9%80%9A%E4%BF%A1/</loc>
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://kks1234.xyz/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/</loc>
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://kks1234.xyz/tags/JAVA/</loc>
+    <lastmod>2022-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -121,7 +137,14 @@
   
   <url>
     <loc>http://kks1234.xyz/categories/%E5%8D%9A%E5%AE%A2%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-05-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://kks1234.xyz/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
+    <lastmod>2022-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
