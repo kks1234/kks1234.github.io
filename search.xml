@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>Hadoop概论</title>
+      <link href="/posts/2793300014.html"/>
+      <url>/posts/2793300014.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="Hadoop概论"><a href="#Hadoop概论" class="headerlink" title="Hadoop概论"></a>Hadoop概论</h2><h4 id="Hadoop的定义"><a href="#Hadoop的定义" class="headerlink" title="Hadoop的定义"></a>Hadoop的定义</h4><p>​Hadoop是一个由Apache基金会所开发的分布式系统基础架构。用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。Hadoop实现了一个分布式文件系统（ Distributed File System），其中一个组件是HDFS（Hadoop Distributed File System）。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。HDFS放宽了（relax）POSIX的要求，可以以流的形式访问（streaming access）文件系统中的数据。Hadoop的框架最核心的设计就是：HDFS和MapReduce。HDFS为海量的数据提供了存储，而MapReduce则为海量的数据提供了计算 。(百度百科)</p><h4 id="Hadoop的诞生"><a href="#Hadoop的诞生" class="headerlink" title="Hadoop的诞生"></a>Hadoop的诞生</h4><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308462.png" alt="image-20211123005313228"></p><p>​Hadoop 三大发行版本：Apache、Cloudera、Hortonworks。</p><p>​Apache 版本最原始（最基础）的版本，对于入门学习最好。2006<br>​Cloudera 内部集成了很多大数据框架，对应产品 CDH。2008<br>​Hortonworks 文档较好，对应产品 HDP。2011<br>​Hortonworks 现在已经被 Cloudera 公司收购，推出新的品牌 CDP。 2018<br>​2021宣布所有版本收费</p><h4 id="Hadoop的地位"><a href="#Hadoop的地位" class="headerlink" title="Hadoop的地位"></a>Hadoop的地位</h4><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308647.png" alt="image-20211123004608453"></p><center>大数据生态圈</center><p>由此可见，Hadoop位于整个大数据生态圈的最底层，是学习整个大数据框架的关键。</p><h4 id="Hadoop的技术架构"><a href="#Hadoop的技术架构" class="headerlink" title="Hadoop的技术架构"></a>Hadoop的技术架构</h4><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308480.png" alt="image-20211123005956862"></p><center>架构图</center><p>现版本为3.x.x，其技术架构和2.0相同。</p><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308799.png" alt="image-20211123011121156"></p><p>主要技术框架：</p><p>​<strong>Hadoop Distributed File System</strong>，简称 <strong>HDFS</strong>，是一个<strong>分布式文件系统</strong>。 用于存储文件，通过目录树来定位文件；其次，它是分布式的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色。</p><p>​<strong>MapReduce</strong> 是一个<strong>分布式运算程序</strong>的编程框架，是用户开发“基于 Hadoop 的数据分析应用”的核心框架。</p><p>​<strong>Yarn</strong>是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的<strong>操作系统平台</strong>，而 <strong>MapReduce</strong> 等运算程序则相当于<strong>运行于操作系统之上的应用程序</strong>。</p><h4 id="Hadoop特点"><a href="#Hadoop特点" class="headerlink" title="Hadoop特点"></a>Hadoop特点</h4><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308512.png" alt="image-20211123010723684"></p><p>参考链接：<a href="https://blog.csdn.net/qq_42937522/article/details/121016314">https://blog.csdn.net/qq_42937522/article/details/121016314</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 大数据 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 编程 </tag>
+            
+            <tag> 技术 </tag>
+            
+            <tag> 计算机 </tag>
+            
+            <tag> JAVA </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>大数据概论</title>
       <link href="/posts/37908005.html"/>
       <url>/posts/37908005.html</url>
