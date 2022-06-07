@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>03Hadoop集群搭建配置 | kks1234的博客</title>
+  <meta name="description" content="Hadoop集群搭建配置至今为止我们做好的准备：1）准备 3 台客户机（关闭防火墙、静态 IP、主机名称）√  2）安装 JDK √ （Hadoop101） 3）配置系统环境变量 √ （Hadoop101） 4）安装 Hadoop √ （Hadoop101） 5）配置 ssh 和分发脚本 6）配置Hadoop环境变量  7）配置集群 8）启动并测试集群 SSH无密钥登陆的配置​		首先，为什么需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="03Hadoop集群搭建配置">
+<meta property="og:url" content="http://kks1234.xyz/posts/3798968528.html">
+<meta property="og:site_name" content="kks1234的博客">
+<meta property="og:description" content="Hadoop集群搭建配置至今为止我们做好的准备：1）准备 3 台客户机（关闭防火墙、静态 IP、主机名称）√  2）安装 JDK √ （Hadoop101） 3）配置系统环境变量 √ （Hadoop101） 4）安装 Hadoop √ （Hadoop101） 5）配置 ssh 和分发脚本 6）配置Hadoop环境变量  7）配置集群 8）启动并测试集群 SSH无密钥登陆的配置​		首先，为什么需要">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313807.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313808.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313809.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313810.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313811.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313812.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313813.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313814.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313815.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313816.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313817.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313818.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313819.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313820.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313821.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313822.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072313823.png">
+<meta property="article:published_time" content="2022-06-07T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-06-07T17:01:22.415Z">
+<meta property="article:author" content="kks1234">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="计算机">
+<meta property="article:tag" content="JAVA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu.kks1234.xyz/imgs/202206072313807.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://kks1234.xyz/posts/3798968528.html">
+  
+    <link rel="alternate" href="/atom.xml" title="kks1234的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body class="main-center theme-purple" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/kks1234" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">kks1234的博客</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">学生、研究生</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Xian, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/kks1234" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/null" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/null" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/null" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JAVA/" rel="tag">JAVA</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF/" rel="tag">技术</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a><span class="tag-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/JAVA/" style="font-size: 13px;">JAVA</a> <a href="/tags/%E6%8A%80%E6%9C%AF/" style="font-size: 13px;">技术</a> <a href="/tags/%E7%BC%96%E7%A8%8B/" style="font-size: 13px;">编程</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" style="font-size: 13px;">计算机</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/3732411068.html" class="title">00Hadoop集群搭建之模板系统</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-07T00:00:00.000Z" itemprop="datePublished">2022-06-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/1329881792.html" class="title">01虚拟机克隆和软件安装</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-07T00:00:00.000Z" itemprop="datePublished">2022-06-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/3101278308.html" class="title">02Hadoop目录和运行模式</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-07T00:00:00.000Z" itemprop="datePublished">2022-06-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/3798968528.html" class="title">03Hadoop集群搭建配置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-07T00:00:00.000Z" itemprop="datePublished">2022-06-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/3480485341.html" class="title">04Hadoop功能完善</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-07T00:00:00.000Z" itemprop="datePublished">2022-06-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hadoop%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">Hadoop集群搭建配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%B3%E4%BB%8A%E4%B8%BA%E6%AD%A2%E6%88%91%E4%BB%AC%E5%81%9A%E5%A5%BD%E7%9A%84%E5%87%86%E5%A4%87%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">至今为止我们做好的准备：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH%E6%97%A0%E5%AF%86%E9%92%A5%E7%99%BB%E9%99%86%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">SSH无密钥登陆的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E9%9B%86%E7%BE%A4%E5%88%86%E5%8F%91%E8%84%9A%E6%9C%AC-xsync"><span class="toc-number">1.3.</span> <span class="toc-text">编写集群分发脚本 xsync</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SCP"><span class="toc-number">1.3.1.</span> <span class="toc-text">SCP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rsync-%E8%BF%9C%E7%A8%8B%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7"><span class="toc-number">1.3.2.</span> <span class="toc-text">rsync 远程同步工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%B7%B1%E7%BC%96%E5%86%99xsync-%E9%9B%86%E7%BE%A4%E5%88%86%E5%8F%91%E8%84%9A%E6%9C%AC-%E5%B0%9A%E7%A1%85%E8%B0%B7"><span class="toc-number">1.3.3.</span> <span class="toc-text">自己编写xsync 集群分发脚本(尚硅谷)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.</span> <span class="toc-text">全分布式配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="toc-number">1.4.1.</span> <span class="toc-text">配置文件说明</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">默认配置文件：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6-%EF%BC%9A"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">自定义配置文件 ：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%9B%86%E7%BE%A4"><span class="toc-number">1.4.2.</span> <span class="toc-text">配置集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8F%91%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.3.</span> <span class="toc-text">分发配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E8%B5%B7%E9%9B%86%E7%BE%A4"><span class="toc-number">1.4.4.</span> <span class="toc-text">发起集群</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">启动集群</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%9F%BA%E6%9C%AC%E6%B5%8B%E8%AF%95"><span class="toc-number">1.5.</span> <span class="toc-text">集群基本测试</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-大数据/hadoop搭建/03Hadoop集群搭建配置及测试_repo" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      03Hadoop集群搭建配置
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/posts/3798968528.html" class="article-date">
+	  <time datetime="2022-06-07T00:00:00.000Z" itemprop="datePublished">2022-06-07</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/JAVA/" rel="tag">JAVA</a>, <a class="article-tag-link-link" href="/tags/%E6%8A%80%E6%9C%AF/" rel="tag">技术</a>, <a class="article-tag-link-link" href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag">编程</a>, <a class="article-tag-link-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/" rel="tag">计算机</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/posts/3798968528.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.3k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 10(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="Hadoop集群搭建配置"><a href="#Hadoop集群搭建配置" class="headerlink" title="Hadoop集群搭建配置"></a>Hadoop集群搭建配置</h2><h3 id="至今为止我们做好的准备："><a href="#至今为止我们做好的准备：" class="headerlink" title="至今为止我们做好的准备："></a>至今为止我们做好的准备：</h3><p>1）准备 3 台客户机（关闭防火墙、静态 IP、主机名称）<strong>√</strong> </p>
+<p>2）安装 JDK <strong>√</strong> （Hadoop101）</p>
+<p>3）配置系统环境变量 <strong>√</strong> （Hadoop101）</p>
+<p>4）安装 Hadoop <strong>√</strong> （Hadoop101）</p>
+<p>5）配置 ssh 和分发脚本</p>
+<p>6）配置Hadoop环境变量 </p>
+<p>7）配置集群</p>
+<p>8）启动并测试集群</p>
+<h3 id="SSH无密钥登陆的配置"><a href="#SSH无密钥登陆的配置" class="headerlink" title="SSH无密钥登陆的配置"></a>SSH无密钥登陆的配置</h3><p>​		首先，为什么需要配置虚拟机之间的无密钥登录，这是因为我们对设置文件的配置，要在各个节点之间统一，所以要频繁进行通信，ssh无密钥登录为配置文件分发脚本服务。</p>
+<p>​		无密钥的原理是加密中的非对称加密，node1连接node2，需要node1生成公钥和密钥对，然后node1将公钥传输给node2，这样在node1用ssh连接node2时，node2将一段验证文用公钥加密，然后传输给node1，而node1用私钥对其进行解密，传输给node2，node2收到解密后的验证后和自己发送的验证进行对比，如果一样这样就<strong>唯一确定</strong>了node1的身份，就可以直接连接。</p>
+<ol>
+<li>生成公钥和私钥</li>
+</ol>
+<p>进入</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313807.png" alt="image-20211126215532200"></p>
+<p>目录，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+
+<p>三次回车，</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313808.png" alt="image-20211126215638216"></p>
+<p>生成两个文件 id_rsa（私钥）、id_rsa.pub（公钥）</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313809.png" alt="image-20211126215724845"></p>
+<ol start="2">
+<li>将公钥拷贝到要免密登录的目标机器上</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id  [user@]hadoop101</span><br><span class="line">ssh-copy-id  [user@]hadoop102</span><br><span class="line">ssh-copy-id  [user@]hadoop103</span><br><span class="line"></span><br><span class="line">ssh -v [user@]hadoop101 #测试</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>在另外两台机器上也同时配置一下ssh无密钥登录。</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313810.png" alt="image-20211126224617693"></p>
+<h3 id="编写集群分发脚本-xsync"><a href="#编写集群分发脚本-xsync" class="headerlink" title="编写集群分发脚本 xsync"></a>编写集群分发脚本 xsync</h3><h4 id="SCP"><a href="#SCP" class="headerlink" title="SCP"></a>SCP</h4><ol>
+<li><p>scp（secure copy）安全拷贝可以实现服务器与服务器之间的数据拷贝。</p>
+</li>
+<li><p>基本语法</p>
+</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313811.png" alt="image-20211126224836783"></p>
+<ol start="3">
+<li><p>实际操作</p>
+<p>将Hadoop101虚拟机上的&#x2F;opt下的module拷贝到另外两台虚拟机，也就是java和hadoop软件包。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r /opt/module/* root@hadoop102:/opt/module</span><br><span class="line">scp -r /opt/module/* root@hadoop103:/opt/module</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="rsync-远程同步工具"><a href="#rsync-远程同步工具" class="headerlink" title="rsync 远程同步工具"></a>rsync 远程同步工具</h4><p>​		rsync 主要用于备份和镜像。具有速度快、避免复制相同内容和支持符号链接的优点。 </p>
+<p>​		rsync 和 scp 区别：用 rsync 做文件的复制要比 scp 的速度快，rsync 只对差异文件做更 新。scp 是把所有文件都复制过去。</p>
+<ol>
+<li>基本语法</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313812.png" alt="image-20211126225546317"></p>
+<h4 id="自己编写xsync-集群分发脚本-尚硅谷"><a href="#自己编写xsync-集群分发脚本-尚硅谷" class="headerlink" title="自己编写xsync 集群分发脚本(尚硅谷)"></a>自己编写xsync 集群分发脚本(尚硅谷)</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/bin/xync</span><br></pre></td></tr></table></figure>
+
+<p>脚本内容不做解释</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">1 arguments count</span></span><br><span class="line">if [ $# -lt 1 ]</span><br><span class="line">then</span><br><span class="line">    echo Not Enough Arguement!</span><br><span class="line">    exit;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">2.foreach files</span></span><br><span class="line">for host in hadoop101 hadoop102 hadoop103</span><br><span class="line">do</span><br><span class="line">    echo ====================  $host  ====================</span><br><span class="line">    #3.foreach dir</span><br><span class="line"></span><br><span class="line">    for file in $@</span><br><span class="line">    do</span><br><span class="line">        #4. file if exit</span><br><span class="line">        if [ -e $file ]</span><br><span class="line">            then</span><br><span class="line">                #5. get father dir</span><br><span class="line">                pdir=$(cd -P $(dirname $file); pwd)</span><br><span class="line"></span><br><span class="line">                #6.get file name</span><br><span class="line">                fname=$(basename $file)</span><br><span class="line">                ssh $host &quot;mkdir -p $pdir&quot;</span><br><span class="line">                rsync -av $pdir/$fname $host:$pdir</span><br><span class="line">            else</span><br><span class="line">                echo $file does not exists!</span><br><span class="line">        fi</span><br><span class="line">    done</span><br><span class="line">done</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x xsync</span><br></pre></td></tr></table></figure>
+
+<p>测试脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xsync /usr/bin</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313813.png" alt="image-20211126230907222"></p>
+<p>同步之前的环境变量配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xsync /etc/profile.d/my_env.sh</span><br></pre></td></tr></table></figure>
+
+<p>在Hadoop102和103上重新加载环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<h3 id="全分布式配置"><a href="#全分布式配置" class="headerlink" title="全分布式配置"></a>全分布式配置</h3><p>​		全部脚本和环境已经准备好，这样我们再三台虚拟机上就都有了java和hadoop环境，都可以单机模式运行，但我们要配置的为全分布式模式，要配置完全分布式模式需要我们对集群的具体hadoop环境部署进行规划，在本例中采用以下的规划方法。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>hadoop101</th>
+<th>hadoop102</th>
+<th>hadoop103</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HDFS</td>
+<td>NameNode、DataNode</td>
+<td>DataNode</td>
+<td>SecondaryNameNode、DataNode</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>ResourceManager、NodeManager</td>
+<td>NodeManager</td>
+</tr>
+</tbody></table>
+<h4 id="配置文件说明"><a href="#配置文件说明" class="headerlink" title="配置文件说明"></a>配置文件说明</h4><p>​		Hadoop 配置文件分两类：默认配置文件和自定义配置文件，只有用户想修改某一默认配置值时，才需要修改自定义配置文件，更改相应属性值。  </p>
+<h5 id="默认配置文件："><a href="#默认配置文件：" class="headerlink" title="默认配置文件："></a>默认配置文件：</h5><p><img src="http://qiniu.kks1234.xyz/imgs/202206072313814.png" alt="image-20211126235555526"></p>
+<p>默认配置文件的内容也可以在官网的文档中获取。</p>
+<h5 id="自定义配置文件-："><a href="#自定义配置文件-：" class="headerlink" title="自定义配置文件 ："></a>自定义配置文件 ：</h5><p>core-site.xml、 hdfs-site.xml、 yarn-site.xml、 mapred-site.xml 四个配置文件存放在$HADOOP_HOME&#x2F;etc&#x2F;hadoop 这个路径上， 用户可以根据项目需求重新进行修改配置。  </p>
+<h4 id="配置集群"><a href="#配置集群" class="headerlink" title="配置集群"></a>配置集群</h4><ol>
+<li><p>配置 core-site.xml  </p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313815.png" alt="image-20211127001548420"></p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type=<span class="string">&quot;text/xsl&quot;</span> href=<span class="string">&quot;configuration.xsl&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定 NameNode 的地址 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://hadoop101:8020<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定 hadoop 数据的存储目录 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/opt/module/hadoop-3.1.3/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置 HDFS 网页登录使用的静态用户为 root --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.http.staticuser.user<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置 hdfs-site.xml</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type=<span class="string">&quot;text/xsl&quot;</span> href=<span class="string">&quot;configuration.xsl&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- nn web 端访问地址--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hadoop101:9870<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 2nn web 端访问地址--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hadoop103:9868<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>配置 yarn-site.xml</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type=<span class="string">&quot;text/xsl&quot;</span> href=<span class="string">&quot;configuration.xsl&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>指定 MR 走 shuffle<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hadoop102<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>指定 ResourceManager 的地址<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.env-whitelist<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CO</span><br><span class="line">        NF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAP</span><br><span class="line">        RED_HOME<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>环境变量的继承<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.scheduler.minimum-allocation-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>512<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>为每个容器请求分配的最小内存限制资源管理器（512M）<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.scheduler.maximum-allocation-mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>4096<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>为每个容器请求分配的最大内存限制资源管理器（4G）<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.vmem-pmem-ratio<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>4<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>虚拟内存比例，默认为2.1，此处设置为4倍<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>配置 mapred-site.xml</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;?xml-stylesheet type=<span class="string">&quot;text/xsl&quot;</span> href=<span class="string">&quot;configuration.xsl&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">description</span>&gt;</span>执行MapReduce的方式：yarn/local<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- 不配置在报错--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.app.mapreduce.am.env<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span>HADOOP_MAPRED_HOME=/opt/module/hadoop-3.1.3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.map.env<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span>HADOOP_MAPRED_HOME=/opt/module/hadoop-3.1.3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.reduce.env<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">value</span>&gt;</span>HADOOP_MAPRED_HOME=/opt/module/hadoop-3.1.3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>配置workers</p>
+<p># 删除第一行localhost，然后添加以下三行</p>
+<p>hadoop101</p>
+<p>hadoop102</p>
+<p>hadoop103</p>
+</li>
+</ol>
+<h4 id="分发配置文件"><a href="#分发配置文件" class="headerlink" title="分发配置文件"></a>分发配置文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xsync /opt/module/hadoop-3.1.3/etc/hadoop/</span><br></pre></td></tr></table></figure>
+
+<p>查看分发情况，确保配置文件被修改成功。</p>
+<h4 id="发起集群"><a href="#发起集群" class="headerlink" title="发起集群"></a>发起集群</h4><h5 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h5><ol>
+<li>如果集群是第一次启动，需要在 hadoop101 节点格式化 NameNode。<strong>（注意： 格式化 NameNode， 会产生新的集群 id， 导致 NameNode 和 DataNode 的集群 id 不一致，集群找不到已往数据。 如果集群在运行过程中报错，需要重新格式化 NameNode 的话， 一定要先停止 namenode 和 datanode 进程， 并且要删除所有机器的 data 和 logs 目录，然后再进行格式化。 ）</strong></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -format  </span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>进入&#x2F;opt&#x2F;module&#x2F;hadoop-3.1.3目录，启动 HDFS</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-dfs.sh</span><br></pre></td></tr></table></figure>
+
+<p>会发现报错</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313816.png" alt="image-20211127004315649"></p>
+<p>这是因为我们使用的root用户启动，所以把sbin下的start-dfs.sh、stop-dfs.sh添加如下内容。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HDFS_DATANODE_USER=root</span><br><span class="line">HDFS_DATANODE_SECURE_USER=hdfs</span><br><span class="line">HDFS_NAMENODE_USER=root</span><br><span class="line">HDFS_SECONDARYNAMENODE_USER=root</span><br></pre></td></tr></table></figure>
+
+<p>同时也在sbin下的start-yarn.sh、stop-yarn.sh添加如下内容。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">YARN_RESOURCEMANAGER_USER=root</span><br><span class="line">HADOOP_SECURE_DN_USER=yarn</span><br><span class="line">YARN_NODEMANAGER_USER=root</span><br></pre></td></tr></table></figure>
+
+<p>分发脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xsync ./sbin/</span><br></pre></td></tr></table></figure>
+
+<p>再次启动dfs，成功。</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313817.png" alt="image-20211127005250202"></p>
+<ol start="3">
+<li>在<strong>配置了 ResourceManager 的节点</strong>（hadoop102） 启动 YARN</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<p>启动成功。</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313818.png" alt="image-20211127005500284"></p>
+<ol start="4">
+<li>Web 端查看 HDFS 的 NameNode<br>（a）浏览器中输入： <a target="_blank" rel="noopener" href="http://hadoop101:9870/">http://hadoop101:9870</a><br>（b）查看 HDFS 上存储的数据信息</li>
+<li>Web 端查看 YARN 的 ResourceManager<br>   （a）浏览器中输入： <a target="_blank" rel="noopener" href="http://hadoop102:8088/">http://hadoop102:8088</a><br>   （b）查看 YARN 上运行的 Job 信息</li>
+</ol>
+<p>查看进行，启动信息符合前面的表格设计。</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313819.png" alt="image-20211127010103320"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313820.png" alt="image-20211127010123552"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313821.png" alt="image-20211127010203259"></p>
+<h3 id="集群基本测试"><a href="#集群基本测试" class="headerlink" title="集群基本测试"></a>集群基本测试</h3><ol>
+<li>普通命令测试</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">上传文件 1.txt是单机测试用例中的字符文本</span></span><br><span class="line">hadoop fs -put 1.txt /</span><br><span class="line">hadoop fs -put /opt/software/hadoop-3.1.3.tar.gz  /</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">统计字数测试</span></span><br><span class="line">hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.1.3.jar wordcount /1.txt /output</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>启动写入基准测试</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">测试10个文件，每个文件50M，一共500M</span></span><br><span class="line">hadoop jar /opt/module/hadoop-3.1.3/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-3.1.3-tests.jar TestDFSIO -write -nrFiles 10 -fileSize 50MB</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313822.png" alt="image-20211127014842999"></p>
+<ol start="3">
+<li>测试读取速度</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">测试10个文件，每个文件50M，一共500M</span></span><br><span class="line">hadoop jar /opt/module/hadoop-3.1.3/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-3.1.3-tests.jar TestDFSIO -read -nrFiles 10 -fileSize 50MB</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072313823.png" alt="image-20211127015209546"></p>
+<ol start="4">
+<li>测试期间，会在HDFS集群上创建 &#x2F;benchmarks目录，测试完毕后，我们可以清理该目录。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hadoop jar /opt/module/hadoop-3.1.3/share/hadoop/mapreduce/hadoop-mapreduce-client-jobclient-3.1.3-tests.jar TestDFSIO -clean</span><br></pre></td></tr></table></figure>
+
+
+
+<p>百度网盘资料包</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1fa7sHVFdeS6bzzNeEfmnqQ">https://pan.baidu.com/s/1fa7sHVFdeS6bzzNeEfmnqQ</a><br>提取码：0xgs</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://kks1234.xyz/posts/3798968528.html" title="03Hadoop集群搭建配置" target="_blank" rel="external">http://kks1234.xyz/posts/3798968528.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/kks1234" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/kks1234" target="_blank"><span class="text-dark">kks1234的博客</span><small class="ml-1x">学生、研究生</small></a></h3>
+        <div>关注计算机领域、喜欢技术。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/posts/3101278308.html" title="02Hadoop目录和运行模式"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/posts/3480485341.html" title="04Hadoop功能完善"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">    <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/kks1234" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/null" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="/null" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/null" target="_blank" title="Facebook" data-toggle=tooltip data-placement=top><i class="icon icon-facebook"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+        <p class="size-small">
+            <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener">陕ICP备2022004243号-1</a>
+        </p>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '4WoJBbyoLjvQVgc4XDLXzLXr-gzGzoHsz',
+    appKey: 'lo6F5yS1rPlk04mgUQ5vumcJ',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

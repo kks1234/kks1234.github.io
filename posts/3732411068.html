@@ -17,20 +17,57 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Hadoop概论 | kks1234的博客</title>
-  <meta name="description" content="Hadoop概论Hadoop的定义​		Hadoop是一个由Apache基金会所开发的分布式系统基础架构。用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。Hadoop实现了一个分布式文件系统（ Distributed File System），其中一个组件是HDFS（Hadoop Distributed File System）。HDFS有高容错性的特">
+  <title>00Hadoop集群搭建之模板系统 | kks1234的博客</title>
+  <meta name="description" content="Hadoop集群搭建之模板系统模板虚拟机环境准备 安装模板虚拟机，IP 地址 192.168.88.100、 主机名称 hadoop100、内存 6G、 硬盘 100G(根据自己的机器情况配置) hadoop100 虚拟机配置要求如下（本文 Linux 系统全部以 CentOS-7-x86_64-DVD-2009.iso 为例 ）  （清华镜像地址：https:&#x2F;&#x2F;mirrors.tuna.tsi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hadoop概论">
-<meta property="og:url" content="http://kks1234.xyz/posts/2793300014.html">
+<meta property="og:title" content="00Hadoop集群搭建之模板系统">
+<meta property="og:url" content="http://kks1234.xyz/posts/3732411068.html">
 <meta property="og:site_name" content="kks1234的博客">
-<meta property="og:description" content="Hadoop概论Hadoop的定义​		Hadoop是一个由Apache基金会所开发的分布式系统基础架构。用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。Hadoop实现了一个分布式文件系统（ Distributed File System），其中一个组件是HDFS（Hadoop Distributed File System）。HDFS有高容错性的特">
+<meta property="og:description" content="Hadoop集群搭建之模板系统模板虚拟机环境准备 安装模板虚拟机，IP 地址 192.168.88.100、 主机名称 hadoop100、内存 6G、 硬盘 100G(根据自己的机器情况配置) hadoop100 虚拟机配置要求如下（本文 Linux 系统全部以 CentOS-7-x86_64-DVD-2009.iso 为例 ）  （清华镜像地址：https:&#x2F;&#x2F;mirrors.tuna.tsi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202205262308462.png">
-<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202205262308647.png">
-<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202205262308480.png">
-<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202205262308799.png">
-<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202205262308512.png">
-<meta property="article:published_time" content="2022-05-26T00:00:00.000Z">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307804.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307014.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307597.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307304.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307701.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307135.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307845.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307413.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307693.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307510.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072307421.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308709.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308613.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308213.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308511.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308430.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308654.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308254.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308492.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308214.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308070.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308397.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072339861.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072338618.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072308318.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309742.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309021.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309137.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309126.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072311275.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309510.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072311374.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309997.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072311197.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309655.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309624.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309438.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309245.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309558.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309630.png">
+<meta property="og:image" content="http://qiniu.kks1234.xyz/imgs/202206072309327.png">
+<meta property="og:image" content="http://kks1234.xyz/pic/image-20211123025204418.png">
+<meta property="article:published_time" content="2022-06-07T00:00:00.000Z">
 <meta property="article:modified_time" content="2022-06-07T17:01:22.415Z">
 <meta property="article:author" content="kks1234">
 <meta property="article:tag" content="编程">
@@ -38,9 +75,9 @@
 <meta property="article:tag" content="计算机">
 <meta property="article:tag" content="JAVA">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://qiniu.kks1234.xyz/imgs/202205262308462.png">
+<meta name="twitter:image" content="http://qiniu.kks1234.xyz/imgs/202206072307804.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://kks1234.xyz/posts/2793300014.html">
+  <link rel="canonical" href="http://kks1234.xyz/posts/3732411068.html">
   
     <link rel="alternate" href="/atom.xml" title="kks1234的博客" type="application/atom+xml">
   
@@ -349,21 +386,21 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">文章目录</h3>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hadoop%E6%A6%82%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">Hadoop概论</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.0.1.</span> <span class="toc-text">Hadoop的定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="toc-number">1.0.2.</span> <span class="toc-text">Hadoop的诞生</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E7%9A%84%E5%9C%B0%E4%BD%8D"><span class="toc-number">1.0.3.</span> <span class="toc-text">Hadoop的地位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E7%9A%84%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84"><span class="toc-number">1.0.4.</span> <span class="toc-text">Hadoop的技术架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hadoop%E7%89%B9%E7%82%B9"><span class="toc-number">1.0.5.</span> <span class="toc-text">Hadoop特点</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hadoop%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA%E4%B9%8B%E6%A8%A1%E6%9D%BF%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.</span> <span class="toc-text">Hadoop集群搭建之模板系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%9D%BF%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">1.0.1.</span> <span class="toc-text">模板虚拟机环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85"><span class="toc-number">1.0.2.</span> <span class="toc-text">VMware虚拟机安装</span></a></li></ol></li></ol></li></ol>
     </nav>
   </div>
 </aside>
 
 <main class="main" role="main">
   <div class="content">
-  <article id="post-大数据/大数据概论/Hadoop概论_repo" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-大数据/hadoop搭建/00集群搭建1_repo" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Hadoop概论
+      00Hadoop集群搭建之模板系统
     </h1>
   
 
@@ -371,8 +408,8 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/posts/2793300014.html" class="article-date">
-	  <time datetime="2022-05-26T00:00:00.000Z" itemprop="datePublished">2022-05-26</time>
+	<a href="/posts/3732411068.html" class="article-date">
+	  <time datetime="2022-06-07T00:00:00.000Z" itemprop="datePublished">2022-06-07</time>
 	</a>
 </span>
         
@@ -397,10 +434,10 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/posts/2793300014.html#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/posts/3732411068.html#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 590(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 775(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
@@ -410,25 +447,164 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="Hadoop概论"><a href="#Hadoop概论" class="headerlink" title="Hadoop概论"></a>Hadoop概论</h2><h4 id="Hadoop的定义"><a href="#Hadoop的定义" class="headerlink" title="Hadoop的定义"></a>Hadoop的定义</h4><p>​		Hadoop是一个由Apache基金会所开发的分布式系统基础架构。用户可以在不了解分布式底层细节的情况下，开发分布式程序。充分利用集群的威力进行高速运算和存储。Hadoop实现了一个分布式文件系统（ Distributed File System），其中一个组件是HDFS（Hadoop Distributed File System）。HDFS有高容错性的特点，并且设计用来部署在低廉的（low-cost）硬件上；而且它提供高吞吐量（high throughput）来访问应用程序的数据，适合那些有着超大数据集（large data set）的应用程序。HDFS放宽了（relax）POSIX的要求，可以以流的形式访问（streaming access）文件系统中的数据。Hadoop的框架最核心的设计就是：HDFS和MapReduce。HDFS为海量的数据提供了存储，而MapReduce则为海量的数据提供了计算 。(百度百科)</p>
-<h4 id="Hadoop的诞生"><a href="#Hadoop的诞生" class="headerlink" title="Hadoop的诞生"></a>Hadoop的诞生</h4><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308462.png" alt="image-20211123005313228"></p>
-<p>​		Hadoop 三大发行版本：Apache、Cloudera、Hortonworks。</p>
-<p>​		Apache 版本最原始（最基础）的版本，对于入门学习最好。2006<br>​		Cloudera 内部集成了很多大数据框架，对应产品 CDH。2008<br>​		Hortonworks 文档较好，对应产品 HDP。2011<br>​		Hortonworks 现在已经被 Cloudera 公司收购，推出新的品牌 CDP。 2018<br>​		2021宣布所有版本收费</p>
-<h4 id="Hadoop的地位"><a href="#Hadoop的地位" class="headerlink" title="Hadoop的地位"></a>Hadoop的地位</h4><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308647.png" alt="image-20211123004608453"></p>
-<center>大数据生态圈</center>
+        <h2 id="Hadoop集群搭建之模板系统"><a href="#Hadoop集群搭建之模板系统" class="headerlink" title="Hadoop集群搭建之模板系统"></a>Hadoop集群搭建之模板系统</h2><h4 id="模板虚拟机环境准备"><a href="#模板虚拟机环境准备" class="headerlink" title="模板虚拟机环境准备"></a>模板虚拟机环境准备</h4><ul>
+<li>安装模板虚拟机，IP 地址 192.168.88.100、 主机名称 hadoop100、内存 6G、 硬盘 100G(根据自己的机器情况配置)</li>
+<li>hadoop100 虚拟机配置要求如下（本文 Linux 系统全部以 CentOS-7-x86_64-DVD-2009.iso 为例 ）  （清华镜像地址：<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/centos/7.9.2009/isos/x86_64/%EF%BC%89">https://mirrors.tuna.tsinghua.edu.cn/centos/7.9.2009/isos/x86_64/）</a></li>
+</ul>
+<h4 id="VMware虚拟机安装"><a href="#VMware虚拟机安装" class="headerlink" title="VMware虚拟机安装"></a>VMware虚拟机安装</h4><p>本人在服务器操作VMware为英文版</p>
+<ol>
+<li>点击创建一个虚拟机</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307804.png" alt="image-20211123013640626"></p>
+<ol start="2">
+<li>选择高级安装，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307014.png" alt="image-20211123013821232"></p>
+<ol start="3">
+<li>以下显示的是版本兼容性，直接点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307597.png" alt="image-20211123013925731"></p>
+<ol start="4">
+<li>下一步选择稍后安装系统，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307304.png" alt="image-20211123014042409"></p>
+<ol start="5">
+<li>选择Linux系统，cnetos7 64 位，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307701.png" alt="image-20211123014131595"></p>
+<ol start="6">
+<li>设置虚拟机名字，设置为Hadoop100，存储位置设置为自己想保存的文件夹，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307135.png" alt="image-20211123014307516"></p>
+<ol start="7">
+<li>设置虚拟机CPU配置，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307845.png" alt="image-20211123014433291"></p>
+<ol start="8">
+<li>设置虚拟机内存，由于内存较多所以设置6G，内存不足可以设置为2G-4G，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307413.png" alt="image-20211123014629673"></p>
+<ol start="9">
+<li>选择网络连接模式，在这里配置为net模式(模式具体区别可自行百度)，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307693.png" alt="image-20211123014741403"></p>
+<ol start="10">
+<li>选择默认推荐模式，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307510.png" alt="image-20211123014856520"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072307421.png" alt="image-20211123014907147"></p>
+<ol start="11">
+<li>选择新建虚拟磁盘，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308709.png" alt="image-20211123014919700"></p>
+<ol start="12">
+<li>修改创建磁盘大小，最好50G以上，该模式不会直接占用50G，而是代表最大占用50G，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308613.png" alt="image-20211123015229906"></p>
+<ol start="13">
+<li>将虚拟机保存至刚才的目录，点击next</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308213.png" alt="image-20211123015418804"></p>
+<ol start="14">
+<li>点击结束，配置完成。</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308511.png" alt="image-20211123015506875"></p>
+<ol start="15">
+<li>右键虚拟机点击设置</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308430.png" alt="image-20211123015654068"></p>
+<ol start="16">
+<li>选择CD&#x2F;DVD，选择使用镜像文件，选择在清华镜像站下载的镜像，点击save</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308654.png" alt="image-20211123015730028"></p>
+<ol start="17">
+<li>开启虚拟机</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308254.png" alt="image-20211123015928485"></p>
+<p>18.选择安装CentOS 7，等待加载</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308492.png" alt="image-20211123020000039"></p>
+<ol start="19">
+<li>使用中文简体，点击继续</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308214.png" alt="image-20211123020139561"></p>
+<ol start="20">
+<li>点击日期选择上海，点击完成</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308070.png" alt="image-20211123020259703"></p>
+<ol start="21">
+<li>点击软件选择，选择桌面安装，并选择一些开发工具包，点击完成</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308397.png" alt="image-20211123020417453"></p>
+<ol start="22">
+<li>点击安装位置，我要分区，点击完成</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072339861.png" alt="image-20211123020511882"></p>
+<ol start="23">
+<li>挂在三个分区，如图，点击完成</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072338618.png" alt="image-20211123020649529"></p>
+<ol start="24">
+<li>点击开始安装，并自己设置用户和root密码，等待系统安装完成。</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072308318.png" alt="image-20211123020800984"></p>
+<ol start="25">
+<li>安装完成，点击重启</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309742.png" alt="image-20211123021927056"></p>
+<ol start="26">
+<li>点击接受，完成配置</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309021.png" alt="image-20211123022050803"></p>
+<p>27.登录用户，可选择未列出登录root用户</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309137.png" alt="image-20211123022134211"></p>
+<p>28.进入系统</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309126.png" alt="image-20211123022244570"></p>
+<p>29.配置虚拟机ip</p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072311275.png" alt="image-20211123022639267"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309510.png" alt="image-20211123023039103"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072311374.png" alt="image-20211123023218069"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309997.png" alt="image-20211123023249919"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072311197.png" alt="image-20211123023522286"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309655.png" alt="image-20211126223938752"></p>
+<ol start="30">
+<li>配置vmware网络设置</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309624.png" alt="image-20211123023824712"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309438.png" alt="image-20211123023912937"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309245.png" alt="image-20211123024009183"></p>
+<ol start="31">
+<li>重启虚拟机，测试虚拟机</li>
+</ol>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309558.png" alt="image-20211123024342725"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309630.png" alt="image-20211123024353259"></p>
+<p><img src="http://qiniu.kks1234.xyz/imgs/202206072309327.png" alt="image-20211123024405624"></p>
+<ol start="32">
+<li><p>安装epel-release  </p>
+<p>注： Extra Packages for Enterprise Linux 是为“红帽系”的操作系统提供额外的软件包，适用于 RHEL、 CentOS 和 Scientific Linux。相当于是一个软件仓库， 大多数 rpm 包在官方repository 中是找不到的）</p>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y epel-release</span><br></pre></td></tr></table></figure>
 
-<p>由此可见，Hadoop位于整个大数据生态圈的最底层，是学习整个大数据框架的关键。</p>
-<h4 id="Hadoop的技术架构"><a href="#Hadoop的技术架构" class="headerlink" title="Hadoop的技术架构"></a>Hadoop的技术架构</h4><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308480.png" alt="image-20211123005956862"></p>
-<center>架构图</center>
+<ol start="33">
+<li>关闭防护墙并防止开机自启</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld.service</span><br></pre></td></tr></table></figure>
 
-<p>现版本为3.x.x，其技术架构和2.0相同。</p>
-<p><img src="http://qiniu.kks1234.xyz/imgs/202205262308799.png" alt="image-20211123011121156"></p>
-<p>主要技术框架：</p>
-<p>​		<strong>Hadoop Distributed File System</strong>，简称 <strong>HDFS</strong>，是一个<strong>分布式文件系统</strong>。 用于存储文件，通过目录树来定位文件；其次，它是分布式的，由很多服务器联合起来实现其功能，集群中的服务器有各自的角色。</p>
-<p>​		<strong>MapReduce</strong> 是一个<strong>分布式运算程序</strong>的编程框架，是用户开发“基于 Hadoop 的数据分析应用”的核心框架。</p>
-<p>​		<strong>Yarn</strong>是一个资源调度平台，负责为运算程序提供服务器运算资源，相当于一个分布式的<strong>操作系统平台</strong>，而 <strong>MapReduce</strong> 等运算程序则相当于<strong>运行于操作系统之上的应用程序</strong>。</p>
-<h4 id="Hadoop特点"><a href="#Hadoop特点" class="headerlink" title="Hadoop特点"></a>Hadoop特点</h4><p><img src="http://qiniu.kks1234.xyz/imgs/202205262308512.png" alt="image-20211123010723684"></p>
-<p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42937522/article/details/121016314">https://blog.csdn.net/qq_42937522/article/details/121016314</a></p>
+<p>​		注意：在企业开发时，通常单个服务器的防火墙时关闭的。公司整体对外会设置		非常安全的防火墙  </p>
+<ol start="34">
+<li>在&#x2F;opt 目录下创建文件夹  module、software 一般软件安装放在opt目录中。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/module /opt/software</span><br></pre></td></tr></table></figure>
+
+<ol start="35">
+<li>删除自带的java SDK</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep -i java | xargs -n1 rpm -e --nodeps</span><br></pre></td></tr></table></figure>
+
+<p><img src="/pic/image-20211123025204418.png" alt="image-20211123025204418"></p>
+<p>自此模板虚拟机安装完成。</p>
+<p>百度网盘资料包</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1fa7sHVFdeS6bzzNeEfmnqQ">https://pan.baidu.com/s/1fa7sHVFdeS6bzzNeEfmnqQ</a><br>提取码：0xgs</p>
 
       
     </div>
@@ -438,7 +614,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://kks1234.xyz/posts/2793300014.html" title="Hadoop概论" target="_blank" rel="external">http://kks1234.xyz/posts/2793300014.html</a>
+      <a href="http://kks1234.xyz/posts/3732411068.html" title="00Hadoop集群搭建之模板系统" target="_blank" rel="external">http://kks1234.xyz/posts/3732411068.html</a>
     </li>
     
     <li class="post-copyright-license">
@@ -484,13 +660,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/posts/3480485341.html" title="04Hadoop功能完善"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/posts/37908005.html" title="大数据概论"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/posts/1329881792.html" title="01虚拟机克隆和软件安装"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
