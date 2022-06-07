@@ -1,5 +1,3 @@
-http://kks1234.xyz/posts/1449520674.html
-http://kks1234.xyz/posts/3480010648.html
 http://kks1234.xyz/posts/2793300014.html
 http://kks1234.xyz/posts/37908005.html
 http://kks1234.xyz/posts/321427774.html
@@ -14,8 +12,5 @@ http://kks1234.xyz/
 http://kks1234.xyz/tags/%E7%BC%96%E7%A8%8B/
 http://kks1234.xyz/tags/%E6%8A%80%E6%9C%AF/
 http://kks1234.xyz/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/
-http://kks1234.xyz/tags/%E9%80%9A%E4%BF%A1/
-http://kks1234.xyz/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/
 http://kks1234.xyz/tags/JAVA/
-http://kks1234.xyz/categories/%E5%8D%9A%E5%AE%A2%E6%B5%8B%E8%AF%95/
 http://kks1234.xyz/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/
